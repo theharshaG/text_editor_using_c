@@ -23,12 +23,14 @@ typedef struct
     int cpos;
 } TxtEdtr;
 
+void handleCommand(TxtEdtr *edtr,char *command);
 void initEditor(TxtEdtr *edtr);
 void freeEditor(TxtEdtr *edtr);
 
 Node *create_node(char *str);
 void insertLine(TxtEdtr *edtr, char *str);
 void displayText(TxtEdtr *edtr);
+void deleteChar(TxtEdtr *edtr, int count);
 
 
 #endif
