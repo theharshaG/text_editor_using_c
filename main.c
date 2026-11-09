@@ -18,7 +18,7 @@ void handleCommand(TxtEdtr *edtr,char *command)
         }
         insertLine(edtr,txt);
     }
-    else if (strcmp(token, "display") == 0)
+    else if (strcmp(token, "print") == 0)
     {
         displayText(edtr);
     }
@@ -39,13 +39,56 @@ void handleCommand(TxtEdtr *edtr,char *command)
         // Call deleteChar()
         deleteChar(edtr, count);
     }
+
+    else if(strcmp(token,"deleteLine")==0)
+    {
+        deleteLine(edtr);
+    }
+
+    else if(strcmp(token,"up")==0)
+    {
+        moveUp(edtr);
+    }
+
+    else if(strcmp(token,"down")==0)
+    {
+        moveDown(edtr);
+    }
+    else if(strcmp(token,"right")==0)
+    {
+        moveRight(edtr);
+    }
+    else if(strcmp(token,"left")==0)
+    {
+        moveLeft(edtr);
+    }
+    else if(strcmp(token,"start")==0)
+    {
+        moveToStart(edtr);
+    }
+    else if(strcmp(token,"end")==0)
+    {
+        moveToEnd(edtr);
+    }
+
     else if (strcmp(token, "help") == 0)
     {
         printf("\nAvailable Commands:\n");
         printf("  insert <text>    - Add a new line with the given text\n");
-        printf("  display          - Display all lines in the editor\n");
+        printf("  print            - Display all lines in the editor\n");
         printf("  delete <count>   - Delete characters from the end of current line\n");
-        printf("  deleteLine <line>- Delete a specific line number\n");
+        printf("  deleteLine       - Delete a currently selected line\n");
+        printf("  up               - Move the cursor next line.\n");
+        printf("  down             - Move the cursor previous line.\n");
+        printf("  left             - Move the cursor one character to the left.\n");
+        printf("  right            - Move the cursor one character to the right.\n");
+        printf("  start            - Move the cursor directly to the beginning of the current line.\n");
+        printf("  end              - Move the cursor directly to the end of the current line.\n");
+        printf("  copy             - Copies the current line into the clipboard.\n");
+        printf("  cut              - Copies the current line and deletes it from the editor.\n");
+        printf("  paste            - Inserts the copied line at the current cursor position.\n");
+        printf("  undo\n");
+        printf("  redo\n");
         printf("  help             - Show this help message\n");
         printf("  exit             - Exit the editor\n");
     }
