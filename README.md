@@ -4,7 +4,7 @@ A lightweight, command-driven terminal text editor built in C. **TxtEdtr** manag
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Doubly Linked List Architecture:** Every line is stored as an independent node (`Node`), enabling efficient line insertions and deletions.
 - **Full Cursor Navigation:** Move up, down, left, right, to the start of a line, or directly to the end of a line with automatic column clamping.
