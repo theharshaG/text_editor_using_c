@@ -106,6 +106,25 @@ void handleCommand(TxtEdtr *edtr, char *command)
     {
         moveToEnd(edtr);
     }
+        else if (strcmp(token, "open") == 0)
+    {
+        char *filename = strtok(NULL, " \r\n");
+        if (filename == NULL)
+        {
+            printf("Usage: open <filename>\n");
+            return;
+        }
+        openFile(edtr, filename);
+    }
+    else if (strcmp(token, "save") == 0)
+    {
+        char *filename = strtok(NULL, " \r\n");
+        saveFile(edtr, filename);
+    }
+    else if (strcmp(token, "close") == 0)
+    {
+        closeFile(edtr);
+    }
     else if (strcmp(token, "help") == 0)
     {
         printf("\nAvailable Commands:\n");
@@ -124,6 +143,9 @@ void handleCommand(TxtEdtr *edtr, char *command)
         printf("  paste            - Inserts the copied line at the current cursor position\n");
         printf("  undo             - Revert the last change\n");
         printf("  redo             - Reapply the last undone change\n");
+        printf("  open <file>      - Open and load an existing file\n");
+        printf("  save [file]      - Save current text to a file\n");
+        printf("  close            - Close the currently opened file\n");
         printf("  help             - Show this help message\n");
         printf("  exit             - Exit the editor\n");
     }

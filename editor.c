@@ -14,6 +14,7 @@ void initEditor(TxtEdtr *edtr)
 
     edtr->cline = 1;
     edtr->cpos = 0;
+    edtr->filename[0] = '\0'; // <--- Start with no file opened
 }
 
 void freeEditor(TxtEdtr *edtr)

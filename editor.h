@@ -34,6 +34,7 @@ typedef struct
 
     History *undoStack;
     History *redoStack;
+    char filename[256]; // <--- Stores the current open file name
 
 } TxtEdtr;
 
@@ -75,5 +76,10 @@ void saveState(TxtEdtr *edtr);
 void undo(TxtEdtr *edtr);
 void redo(TxtEdtr *edtr);
 void clearHistory(History **stack);
+
+// File Operations
+void openFile(TxtEdtr *edtr, const char *filename);
+void saveFile(TxtEdtr *edtr, const char *filename);
+void closeFile(TxtEdtr *edtr);
 
 #endif
