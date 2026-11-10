@@ -34,25 +34,5 @@ void showCursorPosition(TxtEdtr *edtr)
     }
 
     printf("--------------------------------------------\n");
-    printf("Cursor position: Line %d, Column %d\n",edtr->cline,edtr->cpos);
-}
-void moveToStart(TxtEdtr *edtr)
-{
-    if(edtr == NULL || edtr->cursor == NULL)
-    {
-        printf("Editor Empty!\n");
-        return;
-    }
-
-    edtr->cpos = 0;
-}
-void moveToEnd(TxtEdtr *edtr)
-{
-    if(edtr == NULL || edtr->cursor == NULL)
-    {
-        printf("Editor Empty!\n");
-        return;
-    }
-
-    edtr->cpos = strlen(edtr->cursor->line);
+    printf("Cursor position: Line %d, Column %d\n", edtr->cline, edtr->cpos);
 }

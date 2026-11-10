@@ -1,8 +1,9 @@
 #include "editor.h"
-char *clipboard=NULL;
+
+char *clipboard = NULL;
+
 Node *create_node(char *str)
 {
-    // Fix: Allocate sizeof(Node) (24 bytes), NOT sizeof(new) (8 bytes)
     Node *newNode = (Node *)malloc(sizeof(Node));
     if (newNode == NULL)
     {
@@ -44,24 +45,37 @@ void insertLine(TxtEdtr *edtr, char *str)
     {
         edtr->head = newNode;
         edtr->tail = newNode;
+        edtr->cursor = newNode;
         edtr->cline = 1;
     }
     else
     {
-        edtr->tail->next = newNode;
-        newNode->prev = edtr->tail;
-        edtr->tail = newNode;
+        // Insert after current cursor position
+        newNode->next = edtr->cursor->next;
+        newNode->prev = edtr->cursor;
+
+        if (edtr->cursor->next != NULL)
+        {
+            edtr->cursor->next->prev = newNode;
+        }
+        else
+        {
+            edtr->tail = newNode;
+        }
+
+        edtr->cursor->next = newNode;
+        edtr->cursor = newNode;
         edtr->cline++;
     }
 
-    edtr->cursor = newNode;
-    edtr->cpos = 0;
+    edtr->cpos = strlen(str);
     printf("Text inserted successfully..\n");
 }
+
 void deleteChar(TxtEdtr *edtr, int count)
 {
-    // Check whether cursor is valid
-    if (edtr->cursor == NULL)
+    // Check whether editor or cursor is valid
+    if (edtr == NULL || edtr->cursor == NULL)
     {
         printf("Nothing to delete!\n");
         return;
@@ -83,11 +97,15 @@ void deleteChar(TxtEdtr *edtr, int count)
     // Remove characters from the end
     edtr->cursor->line[new_len] = '\0';
 
-    // Update cursor position
-    edtr->cpos = new_len;
+    // Update cursor position if it was past the new end
+    if (edtr->cpos > new_len)
+    {
+        edtr->cpos = new_len;
+    }
 
     printf("Deleted %d characters successfully.\n", count);
 }
+
 void deleteLine(TxtEdtr *edtr)
 {
     // Step 1: Check whether editor or cursor is NULL
@@ -154,7 +172,6 @@ void deleteLine(TxtEdtr *edtr)
 
 void copyText(TxtEdtr *editor)
 {
-    
     if (editor == NULL || editor->cursor == NULL)
     {
         printf("Error: Editor is empty.\n");
@@ -162,8 +179,9 @@ void copyText(TxtEdtr *editor)
     }
   
     free(clipboard);
+    clipboard = NULL;
     
-    clipboard = malloc(strlen(editor->cursor->line) + 1);
+    clipboard = (char *)malloc(strlen(editor->cursor->line) + 1);
     if (clipboard == NULL)
     {
         printf("Error: Memory allocation failed.\n");
@@ -173,7 +191,6 @@ void copyText(TxtEdtr *editor)
     strcpy(clipboard, editor->cursor->line);
     printf("Text copied successfully.\n");
 }
-
 
 void cutText(TxtEdtr *editor)
 {
@@ -188,7 +205,6 @@ void cutText(TxtEdtr *editor)
     printf("Text cut successfully.\n");
 }
 
-
 void pasteText(TxtEdtr *editor)
 {
     if (editor == NULL)
@@ -202,4 +218,13 @@ void pasteText(TxtEdtr *editor)
     insertLine(editor, clipboard);
 
     printf("Text pasted successfully.\n");
+}
+
+void freeClipboard(void)
+{
+    if (clipboard != NULL)
+    {
+        free(clipboard);
+        clipboard = NULL;
+    }
 }

@@ -1,11 +1,16 @@
-
 #include "editor.h"
 
 void initEditor(TxtEdtr *edtr)
 {
+    if (edtr == NULL)
+        return;
+
     edtr->head = NULL;
     edtr->tail = NULL;
     edtr->cursor = NULL;
+
+    edtr->undoStack = NULL;
+    edtr->redoStack = NULL;
 
     edtr->cline = 1;
     edtr->cpos = 0;
@@ -13,6 +18,9 @@ void initEditor(TxtEdtr *edtr)
 
 void freeEditor(TxtEdtr *edtr)
 {
+    if (edtr == NULL)
+        return;
+
     Node *temp = edtr->head;
 
     while (temp != NULL)
@@ -31,4 +39,8 @@ void freeEditor(TxtEdtr *edtr)
 
     edtr->cline = 1;
     edtr->cpos = 0;
+
+    clearHistory(&edtr->undoStack);
+    clearHistory(&edtr->redoStack);
+    freeClipboard();
 }
